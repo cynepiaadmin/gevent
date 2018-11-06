@@ -2,7 +2,7 @@
 """
 Event-loop hub.
 """
-from __future__ import absolute_import, print_function
+
 # XXX: FIXME: Refactor to make this smaller
 # pylint:disable=too-many-lines
 from functools import partial as _functools_partial
@@ -14,6 +14,7 @@ import traceback
 from greenlet import greenlet as RawGreenlet
 from greenlet import getcurrent
 from greenlet import GreenletExit
+import collections
 
 
 
@@ -97,7 +98,7 @@ def spawn_raw(function, *args, **kwargs):
        those attributes will not be set.
 
     """
-    if not callable(function):
+    if not isinstance(function, collections.Callable):
         raise TypeError("function must be callable")
 
     # The hub is always the parent.
@@ -232,7 +233,7 @@ class signal(object):
     greenlet_class = None
 
     def __init__(self, signalnum, handler, *args, **kwargs):
-        if not callable(handler):
+        if not isinstance(handler, collections.Callable):
             raise TypeError("signal handler must be callable.")
 
         self.hub = _get_hub_noargs()

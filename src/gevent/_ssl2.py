@@ -12,7 +12,7 @@ This module implements cooperative SSL socket wrappers.
    with only this level of SSL will be dropped in gevent 1.4.
 """
 
-from __future__ import absolute_import
+
 # Our import magic sadly makes this warning useless
 # pylint: disable=undefined-variable,arguments-differ,no-member
 

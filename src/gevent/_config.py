@@ -8,7 +8,7 @@ is an object of :class:`Config`.
 .. versionadded:: 1.3a2
 """
 
-from __future__ import print_function, absolute_import, division
+
 
 import importlib
 import os
@@ -309,7 +309,7 @@ class ByteCountSettingMixin(_PositiveValueMixin):
         if not value or not isinstance(value, str):
             return value
         value = value.lower()
-        for s, m in self._MULTIPLES.items():
+        for s, m in list(self._MULTIPLES.items()):
             if value[-self._SUFFIX_SIZE:] == s:
                 return int(value[:-self._SUFFIX_SIZE]) * m
         return int(value)

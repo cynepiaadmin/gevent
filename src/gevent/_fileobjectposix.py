@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 import os
 import io
 from io import BufferedReader
@@ -262,7 +262,7 @@ class FileObjectPosix(FileObjectBase):
                         @functools.wraps(m)
                         def wrapped(*args, **kwargs):
                             result = m(*args, **kwargs)
-                            assert isinstance(result, unicode) # pylint:disable=undefined-variable
+                            assert isinstance(result, str) # pylint:disable=undefined-variable
                             return result.encode('latin-1')
                         return wrapped
                     return m

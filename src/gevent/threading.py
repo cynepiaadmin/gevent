@@ -22,7 +22,7 @@ Implementation of the standard :mod:`threading` using greenlets.
    threading; threading.current_thread()`` will no longer return a DummyThread
    before monkey-patching.
 """
-from __future__ import absolute_import
+
 
 
 __implements__ = [
@@ -146,7 +146,7 @@ if hasattr(__threading__, 'main_thread'): # py 3.4+
         return __threading__.main_thread() # pylint:disable=no-member
 else:
     def main_native_thread():
-        main_threads = [v for v in __threading__._active.values()
+        main_threads = [v for v in list(__threading__._active.values())
                         if isinstance(v, __threading__._MainThread)]
         assert len(main_threads) == 1, "Too many main threads"
 

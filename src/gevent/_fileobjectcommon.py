@@ -1,4 +1,4 @@
-from __future__ import absolute_import, print_function, division
+
 
 try:
     from errno import EBADF
@@ -152,7 +152,7 @@ class FileObjectBlock(FileObjectBase):
     def __init__(self, fobj, *args, **kwargs):
         closefd = kwargs.pop('close', True)
         if kwargs:
-            raise TypeError('Unexpected arguments: %r' % kwargs.keys())
+            raise TypeError('Unexpected arguments: %r' % list(kwargs.keys()))
         if isinstance(fobj, integer_types):
             if not closefd:
                 # we cannot do this, since fdopen object will close the descriptor
@@ -248,7 +248,7 @@ class FileObjectThread(FileObjectBase):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         line = self.readline()
         if line:
             return line

@@ -1,7 +1,8 @@
 # pylint: disable=too-many-lines, protected-access, redefined-outer-name, not-callable
 # pylint: disable=no-member
-from __future__ import absolute_import, print_function
+
 import sys
+import collections
 
 # pylint: disable=undefined-all-variable
 __all__ = [
@@ -137,12 +138,12 @@ def _flags_to_list(flags):
     return result
 
 if sys.version_info[0] >= 3:
-    basestring = (bytes, str)
+    str = (bytes, str)
     integer_types = (int,)
 else:
-    import __builtin__ # pylint:disable=import-error
-    basestring = (__builtin__.basestring,)
-    integer_types = (int, __builtin__.long)
+    import builtins # pylint:disable=import-error
+    str = (builtins.str,)
+    integer_types = (int, builtins.long)
 
 
 def _flags_to_int(flags):
@@ -153,7 +154,7 @@ def _flags_to_int(flags):
         return flags
     result = 0
     try:
-        if isinstance(flags, basestring):
+        if isinstance(flags, str):
             flags = flags.split(',')
         for value in flags:
             value = value.strip().lower()
@@ -407,7 +408,7 @@ def set_syserr_cb(callback):
     if callback is None:
         libev.ev_set_syserr_cb(ffi.NULL)
         __SYSERR_CALLBACK = None
-    elif callable(callback):
+    elif isinstance(callback, collections.Callable):
         libev.ev_set_syserr_cb(libev._syserr_cb)
         __SYSERR_CALLBACK = callback
     else:

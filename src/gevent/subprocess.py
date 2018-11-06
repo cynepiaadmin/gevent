@@ -23,7 +23,7 @@ Cooperative ``subprocess`` module.
 
 .. _is not defined: http://www.linuxprogrammingblog.com/all-about-linux-signals?page=11
 """
-from __future__ import absolute_import, print_function
+
 # Can we split this up to make it cleaner? See https://github.com/gevent/gevent/issues/748
 # pylint: disable=too-many-lines
 # Import magic
@@ -624,7 +624,7 @@ class Popen(object):
             # original error so we have to use reraise)
             if not PY3:
                 exc_info = sys.exc_info()
-            for f in filter(None, (self.stdin, self.stdout, self.stderr)):
+            for f in [_f for _f in (self.stdin, self.stdout, self.stderr) if _f]:
                 try:
                     f.close()
                 except (OSError, IOError):
@@ -1272,7 +1272,7 @@ class Popen(object):
             os.closerange(3, min_keep)
             os.closerange(max_keep + 1, MAXFD)
 
-            for i in xrange(min_keep, max_keep):
+            for i in range(min_keep, max_keep):
                 if i in keep:
                     _set_inheritable(i, True)
                     continue
@@ -1430,7 +1430,7 @@ class Popen(object):
                                     # to that API, so we go the reverse direction.
                                     env = {os.fsdecode(k) if isinstance(k, bytes) else k:
                                            os.fsdecode(v) if isinstance(v, bytes) else v
-                                           for k, v in env.items()}
+                                           for k, v in list(env.items())}
                                 os.execvpe(executable, args, env)
 
                         except:

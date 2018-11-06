@@ -1,6 +1,6 @@
 # Copyright (c) 2015 gevent contributors. See LICENSE for details.
 """gevent friendly implementations of builtin functions."""
-from __future__ import absolute_import
+
 
 import sys
 import weakref
@@ -17,8 +17,8 @@ from gevent._compat import imp_release_lock
 # So we test for the old, deprecated version first
 
 try: # Py2
-    import __builtin__ as __gbuiltins__
-    _allowed_module_name_types = (basestring,) # pylint:disable=undefined-variable
+    import builtins as __gbuiltins__
+    _allowed_module_name_types = (str,) # pylint:disable=undefined-variable
     __target__ = '__builtin__'
 except ImportError:
     import builtins as __gbuiltins__ # pylint: disable=import-error

@@ -41,7 +41,7 @@ to manage child processes.
    may change is a subsequent major release.)
 """
 
-from __future__ import absolute_import
+
 
 import os
 import sys
@@ -278,7 +278,7 @@ if hasattr(os, 'fork'):
             now = time.time()
             oldest_allowed = now - timeout
             dead = [pid for pid, val
-                    in _watched_children.items()
+                    in list(_watched_children.items())
                     if isinstance(val, tuple) and val[2] < oldest_allowed]
             for pid in dead:
                 del _watched_children[pid]
@@ -318,7 +318,7 @@ if hasattr(os, 'fork'):
                 if pid == -1:
                     # Any child. If we have one that we're watching and that finished,
                     # we will use that one. Otherwise, let the OS take care of it.
-                    for k, v in _watched_children.items():
+                    for k, v in list(_watched_children.items()):
                         if isinstance(v, tuple):
                             pid = k
                             break

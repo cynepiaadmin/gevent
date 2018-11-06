@@ -2,7 +2,7 @@
 """
 Python 2 socket module.
 """
-from __future__ import absolute_import
+
 
 # Our import magic sadly makes this warning useless
 # pylint: disable=undefined-variable
@@ -346,7 +346,7 @@ class socket(object):
                 raise
 
     def sendall(self, data, flags=0):
-        if isinstance(data, unicode):
+        if isinstance(data, str):
             data = data.encode()
         # this sendall is also reused by gevent.ssl.SSLSocket subclass,
         # so it should not call self._sock methods directly

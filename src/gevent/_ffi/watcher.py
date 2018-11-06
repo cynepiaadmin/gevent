@@ -3,13 +3,14 @@ Useful base classes for watchers. The available
 watchers will depend on the specific event loop.
 """
 # pylint:disable=not-callable
-from __future__ import absolute_import, print_function
+
 
 import signal as signalmodule
 import functools
 import warnings
 
 from gevent._config import config
+import collections
 
 try:
     from tracemalloc import get_object_traceback
@@ -401,7 +402,7 @@ class watcher(object):
         return self._callback
 
     def _set_callback(self, cb):
-        if not callable(cb) and cb is not None:
+        if not isinstance(cb, collections.Callable) and cb is not None:
             raise TypeError("Expected callable, not %r" % (cb, ))
         if cb is None:
             if '_callback' in self.__dict__:

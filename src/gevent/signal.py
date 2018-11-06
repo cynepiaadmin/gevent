@@ -14,12 +14,13 @@ information on configuring this not to be the case for advanced uses.
 .. versionadded:: 1.1b4
 """
 
-from __future__ import absolute_import
+
 
 from gevent._util import _NONE as _INITIAL
 from gevent._util import copy_globals
 
 import signal as _signal
+import collections
 
 __implements__ = []
 __extensions__ = []
@@ -88,7 +89,7 @@ def signal(signalnum, handler):
     # TODO: raise value error if not called from the main
     # greenlet, just like threads
 
-    if handler != _signal.SIG_IGN and handler != _signal.SIG_DFL and not callable(handler):
+    if handler != _signal.SIG_IGN and handler != _signal.SIG_DFL and not isinstance(handler, collections.Callable):
         # exact same error message raised by the stdlib
         raise TypeError("signal handler must be signal.SIG_IGN, signal.SIG_DFL, or a callable object")
 
@@ -110,7 +111,7 @@ def _on_child_hook():
     # This is called in the hub greenlet. To let the function
     # do more useful work, like use blocking functions,
     # we run it in a new greenlet; see gevent.hub.signal
-    if callable(_child_handler):
+    if isinstance(_child_handler, collections.Callable):
         # None is a valid value for the frame argument
         from gevent import Greenlet
         greenlet = Greenlet(_child_handler, _signal.SIGCHLD, None)

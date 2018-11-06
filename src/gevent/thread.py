@@ -8,7 +8,7 @@ Implementation of the standard :mod:`thread` module that spawns greenlets.
     applications, prefer higher level constructs like
     :class:`gevent.Greenlet` class or :func:`gevent.spawn`.
 """
-from __future__ import absolute_import
+
 import sys
 
 __implements__ = ['allocate_lock',
@@ -21,7 +21,7 @@ __implements__ = ['allocate_lock',
 
 __imports__ = ['error']
 if sys.version_info[0] <= 2:
-    import thread as __thread__ # pylint:disable=import-error
+    import _thread as __thread__ # pylint:disable=import-error
 else:
     import _thread as __thread__ # pylint:disable=import-error
     __target__ = '_thread'

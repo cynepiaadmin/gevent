@@ -2,7 +2,7 @@
 """
 c-ares based hostname resolver.
 """
-from __future__ import absolute_import, print_function, division
+
 import os
 import sys
 
@@ -87,7 +87,7 @@ class Resolver(AbstractResolver):
             hub = get_hub()
         self.hub = hub
         if use_environ:
-            for setting in config.settings.values():
+            for setting in list(config.settings.values()):
                 if isinstance(setting, AresSettingMixin):
                     value = setting.get()
                     if value is not None:

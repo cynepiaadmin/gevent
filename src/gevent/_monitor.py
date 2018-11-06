@@ -1,5 +1,5 @@
 # Copyright (c) 2018 gevent. See LICENSE for details.
-from __future__ import print_function, absolute_import, division
+
 
 import os
 import sys
@@ -20,6 +20,7 @@ from gevent.events import implementer
 from gevent._tracer import GreenletTracer
 from gevent._compat import thread_mod_name
 from gevent._compat import perf_counter
+import collections
 
 
 
@@ -128,7 +129,7 @@ class PeriodicMonitoringThread(object):
         return self._monitoring_functions
 
     def add_monitoring_function(self, function, period):
-        if not callable(function):
+        if not isinstance(function, collections.Callable):
             raise ValueError("function must be callable")
 
         if period is None:

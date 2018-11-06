@@ -153,7 +153,7 @@ class Frame(object):
     def __init__(self, frame):
         self.f_globals = dict([
             (k, v)
-            for k, v in frame.f_globals.items()
+            for k, v in list(frame.f_globals.items())
             if k in ("__file__", "__name__")
         ])
         self.f_code = Code(frame.f_code)
@@ -343,11 +343,11 @@ def pickle_traceback(tb):
 
 def install():
     try:
-        import copy_reg
+        import copyreg
     except ImportError:
         import copyreg as copy_reg
 
-    copy_reg.pickle(TracebackType, pickle_traceback)
+    copyreg.pickle(TracebackType, pickle_traceback)
 
 # Added by gevent
 
@@ -381,7 +381,7 @@ def _import_dump_load():
     global dumps
     global loads
     try:
-        import cPickle as pickle
+        import pickle as pickle
     except ImportError:
         import pickle
     dumps = pickle.dumps

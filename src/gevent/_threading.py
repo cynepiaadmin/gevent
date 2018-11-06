@@ -5,7 +5,7 @@ or not).
 
 This module is missing 'Thread' class, but includes 'Queue'.
 """
-from __future__ import absolute_import
+
 
 from collections import deque
 

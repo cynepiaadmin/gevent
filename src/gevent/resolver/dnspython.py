@@ -58,7 +58,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-from __future__ import absolute_import, print_function, division
+
 
 import time
 import re
@@ -602,7 +602,7 @@ class Resolver(AbstractResolver):
         return aliases
 
     def getaddrinfo(self, host, port, family=0, socktype=0, proto=0, flags=0):
-        if ((host in (u'localhost', b'localhost')
+        if ((host in ('localhost', b'localhost')
              or (_is_ipv6_addr(host) and host.startswith('fe80')))
                 or not isinstance(host, str) or (flags & AI_NUMERICHOST)):
             # this handles cases which do not require network access
@@ -651,7 +651,7 @@ class Resolver(AbstractResolver):
                 return resolver._getnameinfo(sockaddr, NI_NUMERICSERV)
 
     def gethostbyaddr(self, ip_address):
-        if ip_address in (u'127.0.0.1', u'::1',
+        if ip_address in ('127.0.0.1', '::1',
                           b'127.0.0.1', b'::1',
                           'localhost'):
             return _socket.gethostbyaddr(ip_address)

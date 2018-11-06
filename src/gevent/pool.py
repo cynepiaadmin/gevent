@@ -13,7 +13,7 @@ provides a way to limit concurrency: its :meth:`spawn <Pool.spawn>`
 method blocks if the number of greenlets in the pool has already
 reached the limit, until there is a free slot.
 """
-from __future__ import print_function, absolute_import, division
+
 
 
 from gevent.hub import GreenletExit, getcurrent, kill as _kill
@@ -221,7 +221,7 @@ class GroupMappingMixin(object):
         maxsize = kwargs.pop('maxsize', None)
         if kwargs:
             raise TypeError("Unsupported keyword arguments")
-        return cls.spawn(func, izip(*iterables), spawn=self.spawn,
+        return cls.spawn(func, zip(*iterables), spawn=self.spawn,
                          _zipped=True, maxsize=maxsize)
 
     def imap(self, func, *iterables, **kwargs):

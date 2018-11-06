@@ -1,6 +1,6 @@
 # Copyright (c) 2009-2012 Denis Bilenko. See LICENSE for details.
 """Locking primitives"""
-from __future__ import absolute_import
+
 
 from gevent.hub import getcurrent
 from gevent._compat import PYPY
@@ -28,8 +28,8 @@ if PYPY:
         from _thread import get_ident as _get_ident # pylint:disable=import-error,useless-suppression
     except ImportError:
         # Python 2
-        from thread import allocate_lock as _allocate_lock # pylint:disable=import-error,useless-suppression
-        from thread import get_ident as _get_ident # pylint:disable=import-error,useless-suppression
+        from _thread import allocate_lock as _allocate_lock # pylint:disable=import-error,useless-suppression
+        from _thread import get_ident as _get_ident # pylint:disable=import-error,useless-suppression
     _sem_lock = _allocate_lock()
 
     def untraceable(f):

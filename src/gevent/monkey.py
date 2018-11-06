@@ -114,9 +114,10 @@ For details, see the :func:`main` function.
 .. versionchanged:: 1.3b1
    Added support for plugins and began emitting will/did patch events.
 """
-from __future__ import absolute_import
-from __future__ import print_function
+
+
 import sys
+import collections
 
 __all__ = [
     'patch_all',
@@ -147,8 +148,8 @@ if sys.version_info[0] >= 3:
     string_types = (str,)
     PY3 = True
 else:
-    import __builtin__ # pylint:disable=import-error
-    string_types = (__builtin__.basestring,)
+    import builtins # pylint:disable=import-error
+    string_types = (builtins.str,)
     PY3 = False
 
 WIN = sys.platform.startswith("win")
@@ -592,7 +593,7 @@ def patch_thread(threading=True, _threading_local=True, Event=True, logging=True
             patch_item(logging, '_lock', threading_mod.RLock())
             for wr in logging._handlerList:
                 # In py26, these are actual handlers, not weakrefs
-                handler = wr() if callable(wr) else wr
+                handler = wr() if isinstance(wr, collections.Callable) else wr
                 if handler is None:
                     continue
                 if not hasattr(handler, 'lock'):
@@ -629,7 +630,7 @@ def patch_thread(threading=True, _threading_local=True, Event=True, logging=True
     if threading:
         from gevent.threading import main_native_thread
 
-        for thread in threading_mod._active.values():
+        for thread in list(threading_mod._active.values()):
             if thread == main_native_thread():
                 continue
             thread.join = make_join_func(thread, None)
@@ -723,7 +724,7 @@ def _find_module_refs(to, excluding_names=()):
             if r['__name__'] in excluding_names:
                 continue
 
-            for v in r.values():
+            for v in list(r.values()):
                 if v is to:
                     direct_ref_modules.add(report(r))
         elif isinstance(r, type) and to in r.__bases__ and 'gevent.' not in r.__module__:
@@ -1025,7 +1026,7 @@ def main():
     if verbose:
         import pprint
         import os
-        print('gevent.monkey.patch_all(%s)' % ', '.join('%s=%s' % item for item in args.items()))
+        print('gevent.monkey.patch_all(%s)' % ', '.join('%s=%s' % item for item in list(args.items())))
         print('sys.version=%s' % (sys.version.strip().replace('\n', ' '), ))
         print('sys.path=%s' % pprint.pformat(sys.path))
         print('sys.modules=%s' % pprint.pformat(sorted(sys.modules.keys())))

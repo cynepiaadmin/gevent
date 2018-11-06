@@ -3,7 +3,7 @@
 internal gevent python 2/python 3 bridges. Not for external use.
 """
 
-from __future__ import print_function, absolute_import, division
+
 
 import sys
 import os
@@ -29,10 +29,10 @@ if PY3:
     thread_mod_name = '_thread'
 
 else:
-    import __builtin__ # pylint:disable=import-error
-    string_types = (__builtin__.basestring,)
-    text_type = __builtin__.unicode
-    integer_types = (int, __builtin__.long)
+    import builtins # pylint:disable=import-error
+    string_types = (builtins.str,)
+    text_type = builtins.str
+    integer_types = (int, builtins.long)
     native_path_types = string_types
     thread_mod_name = 'thread'
 
@@ -76,8 +76,8 @@ if PY3:
 else:
     iteritems = dict.iteritems # python 3: pylint:disable=no-member
     itervalues = dict.itervalues # python 3: pylint:disable=no-member
-    xrange = __builtin__.xrange
-    from itertools import izip # python 3: pylint:disable=no-member,no-name-in-module
+    xrange = builtins.xrange
+     # python 3: pylint:disable=no-member,no-name-in-module
     izip = izip
 
 # fspath from 3.6 os.py, but modified to raise the same exceptions as the

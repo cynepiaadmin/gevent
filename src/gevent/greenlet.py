@@ -1,7 +1,7 @@
 # Copyright (c) 2009-2012 Denis Bilenko. See LICENSE for details.
 # cython: auto_pickle=False,embedsignature=True,always_allow_keywords=False
 
-from __future__ import absolute_import, print_function, division
+
 
 from sys import _getframe as sys_getframe
 from sys import exc_info as sys_exc_info
@@ -29,6 +29,7 @@ from gevent._util import Lazy
 from gevent._util import readproperty
 from gevent._hub_local import get_hub_noargs as get_hub
 from gevent import _waiter
+import collections
 
 
 __all__ = [
@@ -61,7 +62,7 @@ class SpawnedLink(object):
     __slots__ = ['callback']
 
     def __init__(self, callback):
-        if not callable(callback):
+        if not isinstance(callback, collections.Callable):
             raise TypeError("Expected callable: %r" % (callback, ))
         self.callback = callback
 
@@ -218,7 +219,7 @@ class Greenlet(greenlet):
         # If they didn't pass a callable at all, then they must
         # already have one. Note that subclassing to override the run() method
         # itself has never been documented or supported.
-        if not callable(self._run):
+        if not isinstance(self._run, collections.Callable):
             raise TypeError("The run argument or self._run must be callable")
 
         self.args = args
@@ -316,7 +317,7 @@ class Greenlet(greenlet):
         # needed by killall
         return self.parent.loop
 
-    def __nonzero__(self):
+    def __bool__(self):
         return self._start_event is not None and self._exc_info is None
     try:
         __bool__ = __nonzero__ # Python 3
@@ -454,7 +455,7 @@ class Greenlet(greenlet):
         if self.args:
             args = [repr(x)[:50] for x in self.args]
         if self.kwargs:
-            args.extend(['%s=%s' % (key, repr(value)[:50]) for (key, value) in self.kwargs.items()])
+            args.extend(['%s=%s' % (key, repr(value)[:50]) for (key, value) in list(self.kwargs.items())])
         if args:
             result += '(' + ', '.join(args) + ')'
         # it is important to save the result here, because once the greenlet exits '_run' attribute will be removed
@@ -788,7 +789,7 @@ class Greenlet(greenlet):
 
         .. caution:: The callable will be called in the HUB greenlet.
         """
-        if not callable(callback):
+        if not isinstance(callback, collections.Callable):
             raise TypeError('Expected callable: %r' % (callback, ))
         self._links.append(callback) # pylint:disable=no-member
         if self.ready() and self._links and not self._notifier:

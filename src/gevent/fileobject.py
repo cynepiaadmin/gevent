@@ -33,7 +33,7 @@ objects.
 Classes
 =======
 """
-from __future__ import absolute_import
+
 
 from gevent._config import config
 

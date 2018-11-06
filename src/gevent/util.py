@@ -3,7 +3,7 @@
 Low-level utilities.
 """
 
-from __future__ import absolute_import, print_function, division
+
 
 import functools
 import gc
@@ -165,7 +165,7 @@ def _format_thread_info(lines, thread_stacks, limit, current_thread_ident):
 
     thread = None
     frame = None
-    for thread_ident, frame in sys._current_frames().items():
+    for thread_ident, frame in list(sys._current_frames().items()):
         lines.append("*" * 80)
         thread = threads.get(thread_ident)
         name = thread.name if thread else None

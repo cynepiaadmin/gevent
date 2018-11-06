@@ -4,9 +4,9 @@
 Internal module, support for the linkable protocol for "event" like objects.
 
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import sys
 
@@ -14,6 +14,7 @@ from gevent._hub_local import get_hub_noargs as get_hub
 
 from gevent.exceptions import InvalidSwitchError
 from gevent.timeout import Timeout
+import collections
 
 locals()['getcurrent'] = __import__('greenlet').getcurrent
 locals()['greenlet_init'] = lambda: None
@@ -93,7 +94,7 @@ class AbstractLinkable(object):
         <gevent.hub.Hub>`, so it must not use blocking gevent API.
         *callback* will be passed one argument: this instance.
         """
-        if not callable(callback):
+        if not isinstance(callback, collections.Callable):
             raise TypeError('Expected callable: %r' % (callback, ))
 
         self._links.add(callback)

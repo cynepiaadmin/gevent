@@ -9,7 +9,7 @@ See http://www.gevent.org/ for the documentation.
    Add the `config` object.
 """
 
-from __future__ import absolute_import
+
 
 from collections import namedtuple
 

@@ -151,7 +151,7 @@ affects what we see:
    (which are shared across all greenlets) switches during ``__init__``.
 
 """
-from __future__ import print_function
+
 
 from copy import copy
 from weakref import ref
@@ -191,7 +191,7 @@ def all_local_dicts_for_greenlet(greenlet):
     result = []
     id_greenlet = id(greenlet)
     greenlet_dict = greenlet.__dict__
-    for k, v in greenlet_dict.items():
+    for k, v in list(greenlet_dict.items()):
         if not k.startswith(key_prefix):
             continue
         local_impl = v()

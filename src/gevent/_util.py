@@ -3,7 +3,7 @@
 internal gevent utilities, not for external use.
 """
 
-from __future__ import print_function, absolute_import, division
+
 
 from functools import update_wrapper
 

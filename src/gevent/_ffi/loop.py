@@ -2,7 +2,7 @@
 Basic loop implementation for ffi-based cores.
 """
 # pylint: disable=too-many-lines, protected-access, redefined-outer-name, not-callable
-from __future__ import absolute_import, print_function
+
 
 from collections import deque
 import sys
@@ -304,12 +304,12 @@ def assign_standard_callbacks(ffi, lib, callbacks_class, extras=()): # pylint:di
 
 
 if sys.version_info[0] >= 3:
-    basestring = (bytes, str)
+    str = (bytes, str)
     integer_types = (int,)
 else:
-    import __builtin__ # pylint:disable=import-error
-    basestring = (__builtin__.basestring,)
-    integer_types = (int, __builtin__.long)
+    import builtins # pylint:disable=import-error
+    str = (builtins.str,)
+    integer_types = (int, builtins.long)
 
 
 

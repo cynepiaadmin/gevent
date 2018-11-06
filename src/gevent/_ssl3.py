@@ -10,7 +10,7 @@ This module implements cooperative SSL socket wrappers.
 # pylint: disable=undefined-variable
 # pylint:disable=no-member
 
-from __future__ import absolute_import
+
 import ssl as __ssl__
 
 _ssl = __ssl__._ssl

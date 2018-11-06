@@ -4,9 +4,9 @@
 Maintains the thread local hub.
 
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 
 from gevent._compat import thread_mod_name

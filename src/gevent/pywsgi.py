@@ -9,7 +9,7 @@ created for each request. The server can be customized to use
 different subclasses of :class:`WSGIHandler`.
 
 """
-from __future__ import absolute_import
+
 
 # FIXME: Can we refactor to make smallor?
 # pylint:disable=too-many-lines
@@ -23,7 +23,7 @@ import traceback
 from datetime import datetime
 
 try:
-    from urllib import unquote
+    from urllib.parse import unquote
 except ImportError:
     from urllib.parse import unquote # python 2 pylint:disable=import-error,no-name-in-module
 
@@ -329,7 +329,7 @@ class Input(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         line = self.readline()
         if not line:
             raise StopIteration
@@ -1237,10 +1237,10 @@ class Environ(dict):
     if not hasattr(dict, 'iteritems'):
         # Python 3
         def iteritems(self):
-            return self.items()
+            return list(self.items())
 
     def __reduce_ex__(self, proto):
-        return (dict, (), None, None, iter(self.iteritems()))
+        return (dict, (), None, None, iter(self.items()))
 
 class SecureEnviron(Environ):
     """

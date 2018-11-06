@@ -27,7 +27,7 @@ class, not an instance or subclass).
        will be issued with this argument.
 """
 
-from __future__ import absolute_import
+
 import sys
 from heapq import heappush as _heappush
 from heapq import heappop as _heappop
@@ -35,7 +35,7 @@ from heapq import heapify as _heapify
 import collections
 
 if sys.version_info[0] == 2:
-    import Queue as __queue__ # python 3: pylint:disable=import-error
+    import queue as __queue__ # python 3: pylint:disable=import-error
 else:
     import queue as __queue__ # python 2: pylint:disable=import-error
 Full = __queue__.Full
@@ -223,7 +223,7 @@ class Queue(object):
         """
         return True
 
-    def __nonzero__(self):
+    def __bool__(self):
         # Py2.
         # For Cython; __bool__ becomes a special method that we can't
         # get by name.
