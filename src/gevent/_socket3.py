@@ -42,6 +42,8 @@ SocketIO = __socket__.SocketIO # pylint:disable=no-member
 
 
 def _get_memory(data):
+    if isinstance(data, str):
+        data = data.encode()
     mv = memoryview(data)
     if mv.shape:
         return mv
